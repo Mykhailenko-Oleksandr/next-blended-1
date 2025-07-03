@@ -10,7 +10,7 @@ import { useEffect } from 'react';
 // import { User } from '@/types/user';
 
 export default function PostDetailsClient() {
-  const handleClickBack = () => {};
+  // const handleClickBack = () => {};
 
   useEffect(() => {
     const fn = async () => {};

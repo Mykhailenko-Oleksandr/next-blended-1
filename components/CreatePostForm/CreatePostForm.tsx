@@ -2,11 +2,10 @@
 
 import * as Yup from 'yup';
 import { Field, Form, Formik, FormikHelpers, ErrorMessage } from 'formik';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { createPost, fetchUsers } from '@/lib/api';
 
 import css from './CreatePostForm.module.css';
-import { useEffect, useState } from 'react';
 import { User } from '@/types/user';
 
 const PostSchema = Yup.object().shape({
@@ -45,11 +44,10 @@ export default function CreatePostForm({ onClose }: PostFormProps) {
     },
   });
 
-  useEffect(() => {
-    const fn = async () => {};
-
-    fn();
-  }, []);
+  const { data: users } = useQuery<User[]>({
+    queryKey: ['users'],
+    queryFn: fetchUsers,
+  });
 
   const handleSubmit = (values: FormValues, actions: FormikHelpers<FormValues>) => {
     mutate(values);
@@ -76,8 +74,14 @@ export default function CreatePostForm({ onClose }: PostFormProps) {
             <label htmlFor="user">User</label>
             <span className={css.arrow}></span>
             <Field as="select" id="user" name="user" className={css.select}>
-              {/* list options */}
-              <option value={}>User name</option>
+              {users &&
+                users.map(({ name, id }) => {
+                  return (
+                    <option key={id} value={id}>
+                      {name}
+                    </option>
+                  );
+                })}
             </Field>
           </div>
         </div>

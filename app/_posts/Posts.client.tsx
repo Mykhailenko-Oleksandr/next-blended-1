@@ -23,9 +23,7 @@ export default function PostsClient({ initialData, userId }: PostsClientProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isEditPost, setIsEditPost] = useState(false);
   const [editedPost, setEditedPost] = useState<Post | null>(null);
-  const [isCreatePost, setIsCreatePost] = useState(false);
 
   const { data } = useQuery({
     queryKey: ['posts', searchQuery, currentPage, userId],
@@ -41,6 +39,11 @@ export default function PostsClient({ initialData, userId }: PostsClientProps) {
 
   const toggleModal = () => setIsModalOpen((prev) => !prev);
 
+  const toggleEditPost = (post: Post) => {
+    setEditedPost(post);
+    setIsModalOpen(true);
+  };
+
   const changeSearchQuery = useDebouncedCallback((newQuery: string) => {
     setCurrentPage(1);
     setSearchQuery(newQuery);
@@ -48,17 +51,6 @@ export default function PostsClient({ initialData, userId }: PostsClientProps) {
 
   const totalPages = Math.ceil(data.totalCount / 8);
   const posts = data?.posts ?? [];
-
-  const toggleEditPost = (postToEdit?: Post) => {
-    if (postToEdit) {
-      setEditedPost(postToEdit);
-    }
-    setIsEditPost(!isEditPost);
-  };
-
-  const toggleCreatePost = () => {
-    setIsCreatePost(!isCreatePost);
-  };
 
   return (
     <div className={css.app}>
@@ -78,7 +70,6 @@ export default function PostsClient({ initialData, userId }: PostsClientProps) {
               className={css.button}
               onClick={() => {
                 toggleModal();
-                toggleCreatePost();
               }}
             >
               Create post +
@@ -86,23 +77,16 @@ export default function PostsClient({ initialData, userId }: PostsClientProps) {
           </header>
           {isModalOpen && (
             <Modal onClose={toggleModal}>
-              {isCreatePost && (
-                <CreatePostForm
-                  onClose={() => {
-                    toggleModal();
-                    toggleCreatePost();
-                  }}
-                />
-              )}
-              {isEditPost && editedPost && (
+              {editedPost ? (
                 <EditPostForm
                   initialValues={editedPost}
                   onClose={() => {
                     toggleModal();
-                    toggleEditPost();
                     setEditedPost(null);
                   }}
                 />
+              ) : (
+                <CreatePostForm onClose={toggleModal} />
               )}
             </Modal>
           )}
