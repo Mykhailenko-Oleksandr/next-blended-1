@@ -1,13 +1,13 @@
 'use client';
 
-import { useQuery } from '@tanstack/react-query';
+// import { useQuery } from '@tanstack/react-query';
 import Modal from '@/components/Modal/Modal';
-import { fetchPostById, fetchUserById } from '@/lib/api';
-import { useParams, useRouter } from 'next/navigation';
+// import { fetchPostById, fetchUserById } from '@/lib/api';
+// import { useParams, useRouter } from 'next/navigation';
 
 import css from './PostPreview.module.css';
-import { useEffect, useState } from 'react';
-import { User } from '@/types/user';
+import { useEffect } from 'react';
+// import { User } from '@/types/user';
 
 export default function PostPreviewClient() {
   useEffect(() => {

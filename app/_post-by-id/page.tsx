@@ -1,7 +1,7 @@
 import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
 import PostDetailsClient from './PostDetails.client';
-import { fetchPostById } from '@/lib/api';
-import { Metadata } from 'next';
+// import { fetchPostById } from '@/lib/api';
+// import { Metadata } from 'next';
 
 
 
