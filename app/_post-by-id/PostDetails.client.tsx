@@ -19,22 +19,24 @@ export default function PostDetailsClient() {
 
   return (
     <>
-      <div className={css.container}>
-        <div className={css.item}>
-          <button className={css.backBtn}>← Back</button>
+      <main className={css.main}>
+        <div className={css.container}>
+          <div className={css.item}>
+            <button className={css.backBtn}>← Back</button>
 
-          <div className={css.post}>
-            <div className={css.wrapper}>
-              <div className={css.header}>
-                <h2>Post title</h2>
+            <div className={css.post}>
+              <div className={css.wrapper}>
+                <div className={css.header}>
+                  <h2>Post title</h2>
+                </div>
+
+                <p className={css.content}>Post body</p>
               </div>
-
-              <p className={css.content}>Post body</p>
+              <p className={css.user}>Author: User name</p>
             </div>
-            <p className={css.user}>Author: User name</p>
           </div>
         </div>
-      </div>
+      </main>
     </>
   );
 }
