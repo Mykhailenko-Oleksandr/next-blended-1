@@ -4,6 +4,11 @@ import TanStackProvider from '@/components/TanStackProvider/TanStackProvider';
 
 import 'modern-normalize';
 import './globals.css';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Posty',
+};
 
 export default function RootLayout({
   children,

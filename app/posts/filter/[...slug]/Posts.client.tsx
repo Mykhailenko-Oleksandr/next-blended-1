@@ -35,6 +35,7 @@ export default function PostsClient({ initialData, userId }: PostsClientProps) {
       }),
     placeholderData: keepPreviousData,
     initialData,
+    refetchOnMount: false,
   });
 
   const toggleModal = () => setIsModalOpen((prev) => !prev);

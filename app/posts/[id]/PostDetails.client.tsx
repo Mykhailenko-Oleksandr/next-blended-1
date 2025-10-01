@@ -1,16 +1,32 @@
 'use client';
 
-// import { useParams, useRouter } from 'next/navigation';
-// import { useQuery } from '@tanstack/react-query';
+import { Post } from '@/types/post';
+import { useParams, useRouter } from 'next/navigation';
+import { useQuery } from '@tanstack/react-query';
 
-// import { fetchPostById, fetchUserById } from '@/lib/api';
+import { fetchPostById, fetchUserById } from '@/lib/api';
 
 import css from './PostDetails.module.css';
 import { useEffect } from 'react';
-// import { User } from '@/types/user';
+import { string } from 'yup';
+import { User } from '@/types/user';
 
 export default function PostDetailsClient() {
-  // const handleClickBack = () => {};
+  const { id } = useParams<{ id: string }>();
+
+  const router = useRouter();
+
+  const { data: post } = useQuery({
+    queryKey: ['posts', id],
+    queryFn: () => fetchPostById(id),
+    refetchOnMount: false,
+  });
+
+  const autor = fetchUserById(post?.userId);
+
+  const handleClickBack = () => {
+    router.back();
+  };
 
   useEffect(() => {
     const fn = async () => {};
