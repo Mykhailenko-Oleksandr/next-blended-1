@@ -1,22 +1,35 @@
 'use client';
 
-import Modal from '@/components/Modal/Modal';
-// import { useQuery } from '@tanstack/react-query';
-// import { fetchPostById, fetchUserById } from '@/lib/api';
-// import { useParams, useRouter } from 'next/navigation';
-
+import { useParams, useRouter } from 'next/navigation';
+import { useQuery } from '@tanstack/react-query';
+import { fetchPostById, fetchUserById } from '@/lib/api';
 import css from './PostPreview.module.css';
-import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-// import { User } from '@/types/user';
+import { useEffect, useState } from 'react';
+import { User } from '@/types/user';
+import Modal from '@/components/Modal/Modal';
 
-export default function PostPreviewClient() {
+export default function PostDetailsClient() {
+  const [author, setAuthor] = useState<User | null>(null);
+
+  const { id } = useParams<{ id: string }>();
+
   const router = useRouter();
 
+  const { data: post } = useQuery({
+    queryKey: ['post', id],
+    queryFn: () => fetchPostById(id),
+    refetchOnMount: false,
+  });
+
   useEffect(() => {
-    const fn = async () => {};
+    const fn = async () => {
+      if (post) {
+        const fetchedAuthor = await fetchUserById(post.userId);
+        setAuthor(fetchedAuthor);
+      }
+    };
     fn();
-  }, []);
+  }, [post]);
 
   const handleClose = () => {
     router.back();
@@ -30,12 +43,12 @@ export default function PostPreviewClient() {
       <div className={css.post}>
         <div className={css.wrapper}>
           <div className={css.header}>
-            <h2>Post title</h2>
+            <h2>{post?.title}</h2>
           </div>
 
-          <p className={css.content}>Post body</p>
+          <p className={css.content}>{post?.body}</p>
         </div>
-        <p className={css.user}>User name</p>
+        <p className={css.user}>Author: {author?.name}</p>
       </div>
     </Modal>
   );

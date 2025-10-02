@@ -63,4 +63,7 @@ export const fetchUsers = async () => {
   return response.data;
 };
 
-export const fetchUserById = async (userId: number) => {};
+export const fetchUserById = async (userId: number) => {
+  const response = await axios.get<User>(`/users/${userId}`);
+  return response.data;
+};
