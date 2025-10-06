@@ -1,4 +1,3 @@
-import { Metadata } from 'next';
 import css from './layout.module.css';
 
 type LayoutPostsProps = {

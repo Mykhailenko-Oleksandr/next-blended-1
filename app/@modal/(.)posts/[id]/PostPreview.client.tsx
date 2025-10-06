@@ -15,18 +15,22 @@ export default function PostDetailsClient() {
 
   const router = useRouter();
 
-  const { data: post } = useQuery({
+  const {
+    data: post,
+    isLoading,
+    error,
+  } = useQuery({
     queryKey: ['post', id],
     queryFn: () => fetchPostById(id),
     refetchOnMount: false,
   });
 
   useEffect(() => {
+    if (!post) return;
+
     const fn = async () => {
-      if (post) {
-        const fetchedAuthor = await fetchUserById(post.userId);
-        setAuthor(fetchedAuthor);
-      }
+      const fetchedAuthor = await fetchUserById(post.userId);
+      setAuthor(fetchedAuthor);
     };
     fn();
   }, [post]);
@@ -34,6 +38,9 @@ export default function PostDetailsClient() {
   const handleClose = () => {
     router.back();
   };
+
+  if (isLoading) return <p>Loading...</p>;
+  if (error) return <p>Something went wrong...</p>;
 
   return (
     <Modal onClose={handleClose}>

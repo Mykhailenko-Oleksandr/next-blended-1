@@ -2,14 +2,14 @@ import { fetchPosts } from '@/lib/api';
 import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
 import PostsClient from './Posts.client';
 
-interface Props {
+interface PostsPageProps {
   params: Promise<{ slug: string[] }>;
 }
 
 const searchText: string = '';
 const page: number = 1;
 
-export default async function PostsPage({ params }: Props) {
+export default async function PostsPage({ params }: PostsPageProps) {
   const { slug } = await params;
   const userId = slug[0];
 
