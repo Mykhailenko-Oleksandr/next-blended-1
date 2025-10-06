@@ -4,7 +4,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import { fetchPostById, fetchUserById } from '@/lib/api';
 import css from './PostDetails.module.css';
-import { use, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { User } from '@/types/user';
 
 export default function PostDetailsClient() {
